@@ -130,7 +130,7 @@ static NSCondition *_globalLogCondition;
                 // We want to format the string only if the log message will not get filtered out.
                 // Unfortuantely, the _asl_evaluate_send is undocumented, so this may be unstable.
                 // TODO: Write a test to ensure that the logging works properly in future versions.
-                uint32_t _asl_eval = _asl_evaluate_send(_globalLogger, message, logLevel);
+                uint32_t _asl_eval = _asl_evaluate_send(_globalLogger, message, (int)logLevel);
                 if (_asl_eval != 0)
                 {
                     if (!finalLogString)
@@ -139,7 +139,7 @@ static NSCondition *_globalLogCondition;
                     }
                     
                     [_globalLogCondition lock];
-                    asl_log(_globalLogger, message, logLevel, "%s", [finalLogString cStringUsingEncoding:NSUTF8StringEncoding]);
+                    asl_log(_globalLogger, message, (int)logLevel, "%s", [finalLogString cStringUsingEncoding:NSUTF8StringEncoding]);
                     [_globalLogCondition unlock];
                 }
                 asl_free(message);
@@ -163,7 +163,7 @@ static NSCondition *_globalLogCondition;
             if (_logger && _logCondition)
             {
                 aslmsg message = asl_new(ASL_TYPE_MSG);
-                uint32_t _asl_eval = _asl_evaluate_send(_logger, message, logLevel);
+                uint32_t _asl_eval = _asl_evaluate_send(_logger, message, (int)logLevel);
                 if (_asl_eval != 0)
                 {
                     if (!finalLogString)
@@ -172,7 +172,7 @@ static NSCondition *_globalLogCondition;
                     }
                     
                     [_logCondition lock];
-                    asl_log(_logger, message, logLevel, "%s", [finalLogString cStringUsingEncoding:NSUTF8StringEncoding]);
+                    asl_log(_logger, message, (int)logLevel, "%s", [finalLogString cStringUsingEncoding:NSUTF8StringEncoding]);
                     [_logCondition unlock];
                 }
                 asl_free(message);

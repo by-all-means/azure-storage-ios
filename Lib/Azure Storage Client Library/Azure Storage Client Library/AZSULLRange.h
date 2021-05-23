@@ -92,21 +92,6 @@ NS_INLINE AZSULLRange AZSULLRangeFromString(NSString *aString) {
 @property (readonly) AZSULLRange AZSULLRangeValue;
 @end
 
-@implementation NSValue (NSValueAZSULLRangeExtensions)
-+ (NSValue *)valueWithAZSULLRange:(AZSULLRange)value
-{
-    return [self valueWithBytes:&value objCType:@encode(AZSULLRange)];
-}
-
-- (AZSULLRange) AZSULLRangeValue
-{
-    AZSULLRange value;
-    [self getValue:&value];
-    return value;
-}
-@end
-
-
 // Converting between an AZSULLRange and an NSRange
 NS_INLINE AZSULLRange AZSULLRangeFromNSRange(NSRange range) {
     AZSULLRange r;
